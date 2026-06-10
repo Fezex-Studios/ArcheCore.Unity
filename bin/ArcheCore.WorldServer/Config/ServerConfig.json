@@ -1,9 +1,0 @@
-{
-    "ServerName": "Arc MMO",
-    "Port": 7777,
-    "MaxPlayers": 1000,
-    "PersistenceHost": "127.0.0.1",
-    "PersistencePort": 7778,
-    "MOTD": "HELLO WELCOME TO THE SERVER!!!",
-    "AuthServerUrl": "http://127.0.0.1:3000"
-}
