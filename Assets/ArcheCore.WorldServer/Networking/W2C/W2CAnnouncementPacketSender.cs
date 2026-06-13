@@ -8,7 +8,7 @@ namespace ArcheCore.WorldServer.Networking.W2C
     {
         public static void Send(NetPeer peer, string message)
         {
-            PacketSender.SendPacket(peer,PacketType.Announcement,new AnnouncementPacket
+            PacketSender.SendPacket(peer,Opcode.Announcement,new AnnouncementPacket
             {
                 Message = message
             });

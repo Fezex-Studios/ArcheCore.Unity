@@ -13,7 +13,7 @@ namespace ArcheCore.WorldServer.Networking.W2C
         {
             PacketSender.SendPacket(
                 peer,
-                PacketType.MOTD,
+                Opcode.MOTD,
                 new MOTDPacket
                 {
                     Message = message

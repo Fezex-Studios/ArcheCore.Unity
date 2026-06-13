@@ -13,7 +13,7 @@ namespace ArcheCore.Client.Networking.C2W
         {
             PacketSender.SendPacket(
                 peer,
-                PacketType.Authenticate,
+                Opcode.Authenticate,
                 new AuthenticateRequest
                 {
                     Token = token

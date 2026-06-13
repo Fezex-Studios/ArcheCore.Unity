@@ -9,7 +9,7 @@ namespace Shared
     {
         public static void SendPacket<T>(
             NetPeer peer,
-            PacketType opcode,
+            Opcode opcode,
             T payload,
             DeliveryMethod delivery = DeliveryMethod.ReliableOrdered)
         {
@@ -17,7 +17,7 @@ namespace Shared
                 new();
 
             writer.Put(
-                (byte)opcode);
+                (ushort)opcode);
 
             writer.Put(
                 MessagePackSerializer

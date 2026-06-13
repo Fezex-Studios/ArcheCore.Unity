@@ -62,7 +62,7 @@ namespace ArchCore.Client
 
             if (movement != Vector3.zero)
             {
-                C2WMovementPacket.Send(
+                C2WPlayerMovePacket.Send(
                     ClientNetwork.Instance.ServerPeer,
                     transform.position);
             }

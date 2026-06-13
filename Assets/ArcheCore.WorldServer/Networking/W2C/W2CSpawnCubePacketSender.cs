@@ -16,7 +16,7 @@ namespace ArcheCore.WorldServer.Networking.W2C
         {
             PacketSender.SendPacket(
                 peer,
-                PacketType.SpawnCube,
+                Opcode.SpawnCube,
                 new SpawnCubePacket
                 {
                     CubeId = cubeId,

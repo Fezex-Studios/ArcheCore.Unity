@@ -8,12 +8,12 @@ namespace ArcheCore.Client.Networking
     public class PacketDispatcher
     {
         private readonly Dictionary<
-                PacketType,
+                Opcode,
                 IClientPacketHandler>
             handlers = new();
 
         public void Register(
-            PacketType packet,
+            Opcode packet,
             IClientPacketHandler handler)
         {
             handlers[packet] =
@@ -21,7 +21,7 @@ namespace ArcheCore.Client.Networking
         }
 
         public void Handle(
-            PacketType packet,
+            Opcode packet,
             NetPacketReader reader)
         {
             if(handlers.TryGetValue(

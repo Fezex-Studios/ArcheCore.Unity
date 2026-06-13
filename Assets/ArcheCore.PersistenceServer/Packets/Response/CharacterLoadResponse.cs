@@ -3,6 +3,7 @@
 [MessagePackObject(true)]
 public class CharacterLoadResponse
 {
+    public bool Found;
     public long CharacterId;
 
     public string Name;

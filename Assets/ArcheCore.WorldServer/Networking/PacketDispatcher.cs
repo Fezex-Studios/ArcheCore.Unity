@@ -7,12 +7,12 @@ namespace ArcheCore.WorldServer.Networking
     public class PacketDispatcher
     {
         private readonly Dictionary<
-            PacketType,
+            Opcode,
             IPacketHandler> handlers =
             new();
 
         public void Register(
-            PacketType packet,
+            Opcode packet,
             IPacketHandler handler)
         {
             handlers[packet] =
@@ -20,7 +20,7 @@ namespace ArcheCore.WorldServer.Networking
         }
 
         public void Handle(
-            PacketType packet,
+            Opcode packet,
             NetPeer peer,
             NetPacketReader reader)
         {

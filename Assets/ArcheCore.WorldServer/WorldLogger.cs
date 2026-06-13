@@ -9,9 +9,9 @@ public static class WorldLogger
         Debug.Log(message);
     }
 
-    public static void Network(PacketType packetType)
+    public static void Network(Opcode opcode)
     {
-        Debug.Log($"[NET] {packetType}");
+        Debug.Log($"[NET] {opcode}");
     }
 
     public static void Persistence(string message)

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ArcheCore.Client.Networking.C2W
 {
-    public static class C2WMovementPacket
+    public static class C2WPlayerMovePacket
     {
         public static void Send(
             NetPeer peer,
@@ -16,7 +16,7 @@ namespace ArcheCore.Client.Networking.C2W
 
             PacketSender.SendPacket(
                 peer,
-                PacketType.PlayerMove,
+                Opcode.PlayerMove,
                 new PlayerMovePacket
                 {
                     x = position.x,

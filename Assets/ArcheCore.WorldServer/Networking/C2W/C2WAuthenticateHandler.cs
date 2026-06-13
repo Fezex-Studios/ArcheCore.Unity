@@ -5,6 +5,7 @@ using MessagePack;
 using MMO.Shared.Packets;
 using Shared.AuthService;
 using UnityEngine;
+using Worldserver.ArcheCore.PersistenceServer.Scripts;
 
 namespace ArcheCore.WorldServer.Networking.C2W
 {
@@ -47,10 +48,35 @@ namespace ArcheCore.WorldServer.Networking.C2W
             }
 
             Debug.Log(
-                $"[C2WAuthenticateHandler] Token valid. AccountId={accountId} — spawning player.");
+                $"[C2WAuthenticateHandler] Token valid. AccountId={accountId} — loading character.");
+
+            var persistence = PersistenceClient.Instance;
+
+            if (persistence == null)
+            {
+                Debug.LogError("[C2WAuthenticateHandler] PersistenceClient.Instance is null — cannot load character");
+                playerManager.EnqueueAction(() => peer.Disconnect());
+                return;
+            }
+
+            CharacterLoadResponse character =
+                await persistence.W2PCharacter.Load(accountId);
+
+            if (!character.Found)
+            {
+                Debug.LogWarning(
+                    $"[C2WAuthenticateHandler] No character found for AccountId={accountId} — disconnecting peer.");
+
+                // TODO: once character creation is built, redirect to char create screen instead
+                playerManager.EnqueueAction(() => peer.Disconnect());
+                return;
+            }
+
+            Debug.Log(
+                $"[C2WAuthenticateHandler] Character loaded: {character.Name} — spawning.");
 
             playerManager.EnqueueAction(() =>
-                playerManager.HandlePlayerConnected(peer, accountId));
+                playerManager.HandlePlayerConnected(peer, accountId, character));
         }
     }
 }

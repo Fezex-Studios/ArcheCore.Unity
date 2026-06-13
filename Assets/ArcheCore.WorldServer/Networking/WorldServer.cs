@@ -38,11 +38,11 @@ namespace ArcheCore.WorldServer
         private void RegisterPackets()
         {
             packetDispatcher.Register(
-                PacketType.Authenticate,
+                Opcode.Authenticate,
                 new C2WAuthenticateHandler(playerManager));
 
             packetDispatcher.Register(
-                PacketType.PlayerMove,
+                Opcode.PlayerMove,
                 new C2WMovementHandler(playerManager));
         }
 
@@ -87,8 +87,8 @@ namespace ArcheCore.WorldServer
             byte channel,
             DeliveryMethod delivery)
         {
-            PacketType packet =
-                (PacketType)reader.GetByte();
+            Opcode packet =
+                (Opcode)reader.GetUShort();
 
             packetDispatcher.Handle(
                 packet,

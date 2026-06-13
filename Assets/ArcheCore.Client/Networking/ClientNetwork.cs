@@ -69,12 +69,12 @@ namespace ArcheCore.Client.Networking
 
         private void RegisterHandlers()
         {
-            dispatcher.Register(PacketType.MOTD,           new W2CMOTDHandler());
-            dispatcher.Register(PacketType.SpawnPlayer,    new W2CSpawnPlayerHandler());
-            dispatcher.Register(PacketType.PlayerPosition, new W2CPlayerPositionHandler());
-            dispatcher.Register(PacketType.PlayerLeave,    new W2CPlayerLeaveHandler());
-            dispatcher.Register(PacketType.SpawnCube, new W2CSpawnCubeHandler());
-            dispatcher.Register(PacketType.Announcement, new W2CAnnouncementHandler());
+            dispatcher.Register(Opcode.MOTD,           new W2CMOTDHandler());
+            dispatcher.Register(Opcode.SpawnPlayer,    new W2CSpawnPlayerHandler());
+            dispatcher.Register(Opcode.PlayerPosition, new W2CPlayerPositionHandler());
+            dispatcher.Register(Opcode.PlayerLeave,    new W2CPlayerLeaveHandler());
+            dispatcher.Register(Opcode.SpawnCube, new W2CSpawnCubeHandler());
+            dispatcher.Register(Opcode.Announcement, new W2CAnnouncementHandler());
         }
 
         public void OnPeerConnected(NetPeer peer)
@@ -94,7 +94,7 @@ namespace ArcheCore.Client.Networking
             byte             channel,
             DeliveryMethod   delivery)
         {
-            PacketType packet = (PacketType)reader.GetByte();
+            Opcode packet = (Opcode)reader.GetUShort();
             dispatcher.Handle(packet, reader);
             reader.Recycle();
         }

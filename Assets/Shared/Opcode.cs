@@ -1,6 +1,6 @@
 namespace Shared
 {
-    public enum PacketType : byte
+    public enum Opcode : ushort
     {
         Connect      = 1,
         SpawnPlayer  = 2,
