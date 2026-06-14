@@ -1,4 +1,5 @@
-﻿// Server/Networking/W2C/W2CMOTDPacket.cs
+﻿using System.Collections.Generic;
+using ArcheCore.WorldServer.Managers;
 using LiteNetLib;
 using Shared;
 using Shared.Packets;
@@ -8,16 +9,14 @@ namespace ArcheCore.WorldServer.Networking.W2C
     public static class W2CMOTDPacketSender
     {
         public static void Send(
+            ReplicationManager replication,
             NetPeer peer,
             string message)
         {
-            PacketSender.SendPacket(
-                peer,
+            replication.Send(
                 Opcode.MOTD,
-                new MOTDPacket
-                {
-                    Message = message
-                });
+                new MOTDPacket { Message = message },
+                peer);
         }
     }
 }

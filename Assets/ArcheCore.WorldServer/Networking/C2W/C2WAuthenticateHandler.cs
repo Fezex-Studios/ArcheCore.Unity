@@ -59,10 +59,10 @@ namespace ArcheCore.WorldServer.Networking.C2W
                 return;
             }
 
-            CharacterLoadResponse character =
+            P2WCharacterLoadResponse p2WCharacter =
                 await persistence.W2PCharacter.Load(accountId);
 
-            if (!character.Found)
+            if (!p2WCharacter.Found)
             {
                 Debug.LogWarning(
                     $"[C2WAuthenticateHandler] No character found for AccountId={accountId} — disconnecting peer.");
@@ -73,10 +73,10 @@ namespace ArcheCore.WorldServer.Networking.C2W
             }
 
             Debug.Log(
-                $"[C2WAuthenticateHandler] Character loaded: {character.Name} — spawning.");
+                $"[C2WAuthenticateHandler] Character loaded: {p2WCharacter.Name} — spawning.");
 
             playerManager.EnqueueAction(() =>
-                playerManager.HandlePlayerConnected(peer, accountId, character));
+                playerManager.HandlePlayerConnected(peer, accountId, p2WCharacter));
         }
     }
 }

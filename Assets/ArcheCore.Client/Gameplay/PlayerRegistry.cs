@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArchCore.Client;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace ArcheCore.Client.Gameplay
@@ -8,7 +9,8 @@ namespace ArcheCore.Client.Gameplay
     {
         public static PlayerRegistry Instance;
 
-        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private GameObject        playerPrefab;
+        [SerializeField] private CinemachineCamera virtualCamera;
 
         private Dictionary<int, PlayerController> players = new();
 
@@ -28,9 +30,18 @@ namespace ArcheCore.Client.Gameplay
                 Quaternion.identity);
 
             PlayerController pc = go.GetComponent<PlayerController>();
-            pc.networkId    = networkId;
+            pc.networkId     = networkId;
             pc.isLocalPlayer = isLocal;
             players[networkId] = pc;
+
+            // Assign Cinemachine target when local player spawns
+            if (isLocal)
+            {
+                var mmoCamera = FindFirstObjectByType<MMOCamera>();
+                if (mmoCamera != null)
+                    mmoCamera.SetTarget(go.transform);
+            }
+
             return pc;
         }
 

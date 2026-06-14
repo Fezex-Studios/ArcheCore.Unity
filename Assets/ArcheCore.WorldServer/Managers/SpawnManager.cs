@@ -8,11 +8,14 @@ namespace ArcheCore.WorldServer.Managers
     public class SpawnManager
     {
         private int nextCubeId = 1;
-
-        // All active cubes: id -> position
         private readonly Dictionary<int, Vector3> cubes = new();
+        private readonly ReplicationManager _replication;
 
-        // Call this once on world server Start()
+        public SpawnManager(ReplicationManager replication)
+        {
+            _replication = replication;
+        }
+
         public void SpawnInitialCubes()
         {
             SpawnCube(new Vector3( 3f, 0.5f,  0f));
@@ -30,18 +33,32 @@ namespace ArcheCore.WorldServer.Managers
             cubes[id] = position;
         }
 
-        // Send all cubes to a single peer (call on player connect)
         public void SendCubesToPeer(NetPeer peer)
         {
             foreach (var kvp in cubes)
             {
                 W2CSpawnCubePacketSender.Send(
+                    _replication,
                     peer,
                     kvp.Key,
                     kvp.Value.x,
                     kvp.Value.y,
                     kvp.Value.z);
             }
+        }
+
+        public void SpawnCubeForAll(Vector3 position, IEnumerable<NetPeer> peers)
+        {
+            int id = nextCubeId++;
+            cubes[id] = position;
+
+            W2CSpawnCubePacketSender.Broadcast(
+                _replication,
+                peers,
+                id,
+                position.x,
+                position.y,
+                position.z);
         }
     }
 }

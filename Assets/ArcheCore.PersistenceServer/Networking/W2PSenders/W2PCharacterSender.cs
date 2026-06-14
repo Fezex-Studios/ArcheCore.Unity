@@ -11,14 +11,14 @@ namespace ArcheCore.WorldServer.PersistenceServer.Senders
         public W2PCharacterSender(PersistenceClient client)
             => _client = client;
 
-        public async Task<CharacterLoadResponse> Load(long characterId)
+        public async Task<P2WCharacterLoadResponse> Load(long characterId)
         {
-            var tcs = new TaskCompletionSource<CharacterLoadResponse>(
+            var tcs = new TaskCompletionSource<P2WCharacterLoadResponse>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
 
             _client.pendingLoads[characterId] = tcs;
 
-            await _client.Send(PersistenceOpcode.CharacterLoad, new CharacterLoadRequest
+            await _client.Send(PersistenceOpcode.CharacterLoad, new W2PCharacterLoadRequest
             {
                 CharacterId = characterId
             });
@@ -28,7 +28,7 @@ namespace ArcheCore.WorldServer.PersistenceServer.Senders
 
         public async Task Save(long characterId, string name, int level, float x, float y, float z)
         {
-            await _client.Send(PersistenceOpcode.CharacterSave, new CharacterSaveRequest
+            await _client.Send(PersistenceOpcode.CharacterSave, new W2PCharacterSaveRequest
             {
                 CharacterId = characterId,
                 Name        = name,

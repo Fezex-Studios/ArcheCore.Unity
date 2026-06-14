@@ -1,11 +1,9 @@
-﻿using ArcheCore.Client.Networking.W2C;
-using ArcheCore.WorldServer.Managers;
+﻿using ArcheCore.WorldServer.Managers;
 using ArcheCore.WorldServer.Networking;
 using ArcheCore.WorldServer.Networking.C2W;
 using ArcheCore.WorldServer.ServerConfig;
 using LiteNetLib;
 using Shared;
-
 
 namespace ArcheCore.WorldServer
 {
@@ -13,26 +11,28 @@ namespace ArcheCore.WorldServer
     {
         public NetManager Server { get; private set; }
 
-        private PacketDispatcher packetDispatcher;
-        private PlayerManager playerManager;
-        private readonly SpawnManager spawnManager = new();
+        private PacketDispatcher    packetDispatcher;
+        private PlayerManager       playerManager;
+        private SpawnManager        spawnManager;
+        private ReplicationManager  replication;
 
         private const string ConnectionKey = "MMO";
 
         public void Start()
         {
+            replication  = new ReplicationManager();
+            spawnManager = new SpawnManager(replication);
+            playerManager = new PlayerManager(spawnManager, replication);
+
             spawnManager.SpawnInitialCubes();
-            playerManager = new PlayerManager(spawnManager);
 
             packetDispatcher = new PacketDispatcher();
-
             RegisterPackets();
 
             Server = new NetManager(this);
             Server.Start(ConfigService.Config.Port);
 
-            WorldLogger.Info(
-                $"Server started on port {ConfigService.Config.Port}");
+            WorldLogger.Info($"Server started on port {ConfigService.Config.Port}");
         }
 
         private void RegisterPackets()
@@ -48,10 +48,7 @@ namespace ArcheCore.WorldServer
 
         public void Update()
         {
-            // Drain any actions queued by async handlers
-            // (e.g. authentication callbacks)
             playerManager.DrainActions();
-
             Server?.PollEvents();
         }
 
@@ -62,21 +59,15 @@ namespace ArcheCore.WorldServer
 
         public void OnPeerConnected(NetPeer peer)
         {
-            WorldLogger.Info(
-                $"Client connected: {peer.Address}");
-
-            // Waiting for Authenticate packet
+            WorldLogger.Info($"Client connected: {peer.Address}");
         }
 
-        public void OnPeerDisconnected(
-            NetPeer peer,
-            DisconnectInfo info)
+        public void OnPeerDisconnected(NetPeer peer, DisconnectInfo info)
         {
             playerManager.HandlePlayerDisconnected(peer);
         }
 
-        public void OnConnectionRequest(
-            ConnectionRequest request)
+        public void OnConnectionRequest(ConnectionRequest request)
         {
             request.AcceptIfKey(ConnectionKey);
         }
@@ -87,14 +78,8 @@ namespace ArcheCore.WorldServer
             byte channel,
             DeliveryMethod delivery)
         {
-            Opcode packet =
-                (Opcode)reader.GetUShort();
-
-            packetDispatcher.Handle(
-                packet,
-                peer,
-                reader);
-
+            Opcode packet = (Opcode)reader.GetUShort();
+            packetDispatcher.Handle(packet, peer, reader);
             reader.Recycle();
         }
 
@@ -102,21 +87,13 @@ namespace ArcheCore.WorldServer
             System.Net.IPEndPoint endPoint,
             System.Net.Sockets.SocketError error)
         {
-            WorldLogger.Warning(
-                $"Network Error: {error}");
+            WorldLogger.Warning($"Network Error: {error}");
         }
 
-        public void OnNetworkLatencyUpdate(
-            NetPeer peer,
-            int latency)
-        {
-        }
-
+        public void OnNetworkLatencyUpdate(NetPeer peer, int latency) { }
         public void OnNetworkReceiveUnconnected(
             System.Net.IPEndPoint endPoint,
             NetPacketReader reader,
-            UnconnectedMessageType messageType)
-        {
-        }
+            UnconnectedMessageType messageType) { }
     }
 }

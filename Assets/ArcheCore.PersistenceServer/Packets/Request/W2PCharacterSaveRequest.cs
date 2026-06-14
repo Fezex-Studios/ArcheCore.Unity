@@ -1,9 +1,8 @@
 ﻿using MessagePack;
 
 [MessagePackObject(true)]
-public class CharacterLoadResponse
+public class W2PCharacterSaveRequest
 {
-    public bool Found;
     public long CharacterId;
 
     public string Name;

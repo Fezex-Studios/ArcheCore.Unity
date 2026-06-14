@@ -22,13 +22,14 @@ namespace ArcheCore.WorldServer
                 Root,
                 "Data");
 
+        public static readonly string Lua = Path.Combine(Root, "Lua", "Server");
+
         public static void Initialize()
         {
             Directory.CreateDirectory(Config);
-
             Directory.CreateDirectory(Logs);
-
             Directory.CreateDirectory(Data);
+            Directory.CreateDirectory(Lua);
         }
     }
 }

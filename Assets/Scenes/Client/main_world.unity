@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArcheCore.Client.Gameplay.PlayerRegistry
   playerPrefab: {fileID: 7721660643792989614, guid: 619ed0439727a3c4cb83a336136eff40, type: 3}
+  virtualCamera: {fileID: 0}
 --- !u!4 &10223884
 Transform:
   m_ObjectHideFlags: 0
@@ -416,6 +417,7 @@ GameObject:
   - component: {fileID: 529347548}
   - component: {fileID: 529347547}
   - component: {fileID: 529347550}
+  - component: {fileID: 529347551}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -464,7 +466,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -490,8 +492,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 529347546}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.20638786, y: 0.09143025, z: -0.019374447, w: -0.9739965}
+  m_LocalPosition: {x: 5.495064, y: 16.693966, z: -15.674131}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -636,6 +638,26 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
+--- !u!114 &529347551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529347546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48648b81f2d44924d9aadfbdc99f693f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArcheCore.Client.Gameplay.MMOCamera
+  target: {fileID: 0}
+  distance: 6
+  minDistance: 2
+  maxDistance: 15
+  zoomSpeed: 2
+  mouseSensitivity: 3
+  minPitch: -20
+  maxPitch: 60
 --- !u!1 &1855791942
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ namespace Worldserver.ArcheCore.PersistenceServer.Scripts
         private NetworkStream stream;
         private PersistenceDispatcher dispatcher;
 
-        internal readonly ConcurrentDictionary<long, TaskCompletionSource<CharacterLoadResponse>>
+        internal readonly ConcurrentDictionary<long, TaskCompletionSource<P2WCharacterLoadResponse>>
             pendingLoads = new();
 
         public static PersistenceClient Instance { get; private set; }
@@ -66,7 +66,7 @@ namespace Worldserver.ArcheCore.PersistenceServer.Scripts
                 new P2WCharacterLoadHandler(this));
         }
 
-        public void ResolveLoad(CharacterLoadResponse response)
+        public void ResolveLoad(P2WCharacterLoadResponse response)
         {
             if (pendingLoads.TryRemove(response.CharacterId, out var tcs))
                 tcs.SetResult(response);

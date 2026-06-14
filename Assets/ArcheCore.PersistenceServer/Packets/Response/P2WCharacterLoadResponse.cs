@@ -1,8 +1,9 @@
 ﻿using MessagePack;
 
 [MessagePackObject(true)]
-public class CharacterSaveRequest
+public class P2WCharacterLoadResponse
 {
+    public bool Found;
     public long CharacterId;
 
     public string Name;

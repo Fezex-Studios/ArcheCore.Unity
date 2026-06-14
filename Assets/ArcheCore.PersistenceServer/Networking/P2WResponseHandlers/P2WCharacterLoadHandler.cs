@@ -17,7 +17,7 @@ namespace ArcheCore.WorldServer.PersistenceServer.Networking.P2W
         {
             var character =
                 MessagePackSerializer
-                    .Deserialize<CharacterLoadResponse>(packet.Payload);
+                    .Deserialize<P2WCharacterLoadResponse>(packet.Payload);
 
             Debug.Log($"[CharacterLoadHandler] Loaded CharacterId={character.CharacterId} Name={character.Name} Level={character.Level} Pos=({character.X}, {character.Y}, {character.Z})");
 

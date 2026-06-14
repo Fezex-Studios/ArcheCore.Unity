@@ -1,21 +1,21 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ArcheCore.WorldServer.Managers;
 using LiteNetLib;
 using Shared;
-using Shared.Packets;
+using Shared.Components;
 
 namespace ArcheCore.WorldServer.Networking.W2C
 {
-    public static class W2CAnnouncementPacketSender
+    public static class W2CPlayerLeavePacketSender
     {
         public static void Send(
             ReplicationManager replication,
             IEnumerable<NetPeer> peers,
-            string message)
+            int networkId)
         {
             replication.Broadcast(
-                Opcode.Announcement,
-                new AnnouncementPacket { Message = message },
+                Opcode.PlayerLeave,
+                new PlayerLeavePacket { NetworkId = networkId },
                 peers);
         }
     }

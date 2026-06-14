@@ -1,7 +1,7 @@
 ﻿using MessagePack;
 
 [MessagePackObject(true)]
-public class CharacterLoadRequest
+public class W2PCharacterLoadRequest
 {
     public long CharacterId;
 }
