@@ -73,8 +73,8 @@ namespace ArcheCore.Client.Networking
             dispatcher.Register(Opcode.SpawnPlayer,    new W2CSpawnPlayerHandler());
             dispatcher.Register(Opcode.PlayerPosition, new W2CPlayerPositionHandler());
             dispatcher.Register(Opcode.PlayerLeave,    new W2CPlayerLeaveHandler());
-            dispatcher.Register(Opcode.SpawnCube, new W2CSpawnCubeHandler());
             dispatcher.Register(Opcode.Announcement, new W2CAnnouncementHandler());
+            dispatcher.Register(Opcode.SpawnNpc, new W2CSpawnNpcHandler());
         }
 
         public void OnPeerConnected(NetPeer peer)

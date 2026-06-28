@@ -10,6 +10,12 @@ namespace ArcheCore.Client.GameData
     /// Attach to a GameObject in the server_select scene.
     /// Checks for a new gamedata.db on the auth server, downloads if outdated,
     /// then opens the DB before the player connects to the world.
+    ///
+    /// Note: gamedata.db is stored encrypted on disk (both the bundled
+    /// StreamingAssets copy and whatever the Authserver serves) — see
+    /// GameDataCrypto.cs / encrypt_gamedata.py. This class only ever moves
+    /// the encrypted bytes around; GameDataDatabase.Initialize() is what
+    /// decrypts it to a temp file right before opening the connection.
     /// </summary>
     public class GameDataBootstrap : MonoBehaviour
     {
@@ -75,7 +81,10 @@ namespace ArcheCore.Client.GameData
                 Debug.Log("[GameDataBootstrap] Game data is up to date.");
             }
 
-            GameDataDatabase.Initialize();
+            // Bug fix: previously GameDataDatabase.Initialize() ignored this
+            // resolved path entirely and re-opened StreamingAssets directly,
+            // so a freshly downloaded update was never actually loaded.
+            GameDataDatabase.Initialize(DbPath);
             IsReady = GameDataDatabase.IsReady;
         }
 
@@ -108,6 +117,10 @@ namespace ArcheCore.Client.GameData
 
         private async Task DownloadDatabase(string newHash)
         {
+            // Bytes here are the ENCRYPTED file as served by GameDataRoute —
+            // GameDataRoute itself needs no changes, it just streams whatever
+            // is on disk at GameDatabasePath on the server, which should be
+            // the output of encrypt_gamedata.py, not the raw plaintext db.
             byte[] data = await Http.GetByteArrayAsync(
                 $"{AuthServerUrl}/gamedata/db");
 
@@ -153,7 +166,7 @@ namespace ArcheCore.Client.GameData
             if (!File.Exists(DbPath))
                 CopyBundledToLocal();
 
-            GameDataDatabase.Initialize();
+            GameDataDatabase.Initialize(DbPath);
             IsReady = GameDataDatabase.IsReady;
         }
 

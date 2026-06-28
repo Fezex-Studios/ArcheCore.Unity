@@ -9,7 +9,7 @@ namespace Shared
         PlayerPosition = 5,
         Authenticate = 6,
         PlayerLeave  = 7,
-        SpawnCube = 8,
-        Announcement = 9
+        Announcement = 9,
+        SpawnNpc = 10
     }
 }

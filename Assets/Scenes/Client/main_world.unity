@@ -405,6 +405,87 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
+--- !u!1001 &395782330
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.723403
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011666551153387298, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8645705965737972406, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      propertyPath: m_Name
+      value: Orc
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8645705965737972406, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 395782332}
+  m_SourcePrefab: {fileID: 100100000, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+--- !u!1 &395782331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8645705965737972406, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+  m_PrefabInstance: {fileID: 395782330}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &395782332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395782331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2a1cde005d4769884cdf1d45266f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NpcSpawnerMarker
+  TemplateId: 1
+  NpcName: Orc Grunt
+  Count: 1
+  Radius: 23
 --- !u!1 &529347546
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48648b81f2d44924d9aadfbdc99f693f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArcheCore.Client.Gameplay.MMOCamera
-  target: {fileID: 0}
   distance: 6
   minDistance: 2
   maxDistance: 15
@@ -658,6 +738,53 @@ MonoBehaviour:
   mouseSensitivity: 3
   minPitch: -20
   maxPitch: 60
+--- !u!1 &1707228486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1707228488}
+  - component: {fileID: 1707228487}
+  m_Layer: 0
+  m_Name: WorldObjectPrefabRegistry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1707228487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707228486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ad343d718884965a30f8041024ad28b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArcheCore.Client.World.WorldObjectPrefabRegistry
+  entries:
+  - Type: NPC_Orc
+    Prefab: {fileID: 8645705965737972406, guid: 7899776ace5ab6c4cacec7f4126c90d7, type: 3}
+--- !u!4 &1707228488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707228486}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5066, y: -0, z: 21.29151}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1855791942
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,8 +892,8 @@ Transform:
   m_GameObject: {fileID: 1855791942}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 3.0841, y: 0, z: -4.7867}
+  m_LocalScale: {x: 5.327803, y: 1, z: 4.8311057}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -779,3 +906,5 @@ SceneRoots:
   - {fileID: 314763756}
   - {fileID: 10223884}
   - {fileID: 1855791946}
+  - {fileID: 1707228488}
+  - {fileID: 395782330}
