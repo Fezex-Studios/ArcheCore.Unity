@@ -175,7 +175,7 @@ namespace ArcheCore.Editor
 
             var tabBase = new GUIStyle(EditorStyles.toolbarButton)
             {
-                fontSize  = 11,
+                fontSize    = 11,
                 fixedHeight = 28
             };
             _tabActiveStyle   = new GUIStyle(tabBase);
@@ -270,17 +270,24 @@ namespace ArcheCore.Editor
             var s = ArcheCoreDevToolsSettings.instance;
 
             // ── Paths section ─────────────────────────────────────────────────
+            // FIX: wrap DrawPathField calls in try/catch so an ArgumentException
+            //      from Path.GetDirectoryName never leaves BeginVertical unmatched.
             EditorGUILayout.BeginVertical(_sectionBoxStyle);
             EditorGUILayout.LabelField("📁  Paths", _subHeaderStyle);
             EditorGUILayout.Space(4);
-
-            DrawPathField("Plaintext DB (_oggamedata.db)",
-                ref s.plaintextDbPath, false);
-            DrawPathField("Encrypted Output Dir",
-                ref s.encryptedDbDir, true);
-            DrawPathField("AuthServer gamedata.db Path",
-                ref s.authServerDbPath, false);
-
+            try
+            {
+                DrawPathField("Plaintext DB (_oggamedata.db)",
+                    ref s.plaintextDbPath, false);
+                DrawPathField("Encrypted Output Dir",
+                    ref s.encryptedDbDir, true);
+                DrawPathField("AuthServer gamedata.db Path",
+                    ref s.authServerDbPath, false);
+            }
+            catch (Exception e)
+            {
+                EditorGUILayout.HelpBox($"Path error: {e.Message}", MessageType.Error);
+            }
             EditorGUILayout.EndVertical();
 
             // ── Status ───────────────────────────────────────────────────────
@@ -430,7 +437,14 @@ namespace ArcheCore.Editor
             EditorGUILayout.BeginVertical(_sectionBoxStyle);
             EditorGUILayout.LabelField("📁  Output", _subHeaderStyle);
             EditorGUILayout.Space(4);
-            DrawPathField("Server Patch Dir", ref s.serverPatchDir, true);
+            try
+            {
+                DrawPathField("Server Patch Dir", ref s.serverPatchDir, true);
+            }
+            catch (Exception e)
+            {
+                EditorGUILayout.HelpBox($"Path error: {e.Message}", MessageType.Error);
+            }
             EditorGUILayout.Space(4);
 
             EditorGUILayout.BeginHorizontal();
@@ -668,7 +682,14 @@ namespace ArcheCore.Editor
             EditorGUILayout.BeginVertical(_sectionBoxStyle);
             EditorGUILayout.LabelField("📁  Server Patch Directory", _subHeaderStyle);
             EditorGUILayout.Space(4);
-            DrawPathField("", ref s.serverPatchDir, true);
+            try
+            {
+                DrawPathField("", ref s.serverPatchDir, true);
+            }
+            catch (Exception e)
+            {
+                EditorGUILayout.HelpBox($"Path error: {e.Message}", MessageType.Error);
+            }
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -863,6 +884,11 @@ namespace ArcheCore.Editor
         // ─────────────────────────────────────────────────────────────────────
         //  UI helpers
         // ─────────────────────────────────────────────────────────────────────
+
+        // FIX: Guard Path.GetDirectoryName against empty/invalid strings.
+        //      Passing "" or a string with illegal chars to GetDirectoryName
+        //      throws ArgumentException, which previously left BeginVertical
+        //      blocks unmatched and triggered the GUILayout state error.
         private void DrawPathField(string label, ref string value, bool isDir)
         {
             EditorGUILayout.BeginHorizontal();
@@ -871,10 +897,29 @@ namespace ArcheCore.Editor
             value = EditorGUILayout.TextField(value);
             if (GUILayout.Button("…", EditorStyles.miniButton, GUILayout.Width(24)))
             {
-                string picked = isDir
-                    ? EditorUtility.OpenFolderPanel("Select Folder", value, "")
-                    : EditorUtility.OpenFilePanel("Select File", 
-                        Path.GetDirectoryName(value) ?? "", "db");
+                string picked;
+                if (isDir)
+                {
+                    picked = EditorUtility.OpenFolderPanel(
+                        "Select Folder",
+                        !string.IsNullOrEmpty(value) && Directory.Exists(value) ? value : "",
+                        "");
+                }
+                else
+                {
+                    // Only call GetDirectoryName when value is a non-empty path
+                    // that actually exists — avoids ArgumentException on "" or
+                    // strings containing illegal characters.
+                    string startDir = "";
+                    if (!string.IsNullOrEmpty(value) && File.Exists(value))
+                    {
+                        try   { startDir = Path.GetDirectoryName(value) ?? ""; }
+                        catch { startDir = ""; }
+                    }
+
+                    picked = EditorUtility.OpenFilePanel("Select File", startDir, "db");
+                }
+
                 if (!string.IsNullOrEmpty(picked))
                     value = picked;
             }
